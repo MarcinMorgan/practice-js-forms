@@ -1,4 +1,6 @@
 const form = document.querySelector('form');
+const labelList = form.querySelectorAll('label');
+let checkList = [];
 
 form.addEventListener('submit', function(element) {
     element.preventDefault();
@@ -10,48 +12,54 @@ form.addEventListener('submit', function(element) {
     checkIfSamePass(formPass1, formPass2);
     const formAccept = element.target.elements.accept.checked;
     checkAcceptance(formAccept);
+    labelList.forEach(markWrongInputs);
 })
 
 function checkEmail(userEmail) {
-    const formLogin = form.querySelector('[for="formLogin"]');
     if (userEmail.includes('@')) {
-        formLogin.removeAttribute('style');
+        checkList[0] = 'correct';
         console.log('done');
     }
     else {
-        formLogin.setAttribute('style', 'color: red');
+        checkList[0] = 'wrong';
     }
 }
 
 function checkPassword (userPass1) {
-    const formPass1 = form.querySelector('[for="formPass1"]');
     if (userPass1.length > 6) {
-        formPass1.removeAttribute('style');
+        checkList[1] = 'correct';
         console.log('done');
     }
     else {
-        formPass1.setAttribute('style', 'color: red');
+        checkList[1] = 'wrong';
     }
 }
 
 function checkIfSamePass (userPass1, userPass2) {
-    const formPass2 = form.querySelector('[for="formPass2"]');
     if (userPass1 === userPass2) {
-        formPass2.removeAttribute('style');
+        checkList[2] = 'correct';
         console.log('done');
     }
     else {
-        formPass2.setAttribute('style', 'color: red');
+        checkList[2] = 'wrong';
     }
 }
 
 function checkAcceptance(userAcceptance) {
-    const formAccept = form.querySelector('[for="formAccept"]');
-    if (userAcceptance == true) {
-        formAccept.removeAttribute('style');
+    if (userAcceptance === true) {
+        checkList[3] = 'correct';
         console.log('done');
     }
     else {
-        formAccept.setAttribute('style', 'color: red');
+        checkList[3] = 'wrong';
+    }
+}
+
+function markWrongInputs(labels, index) {
+    if (checkList[index] === 'correct') {
+        labels.removeAttribute('style');
+    }
+    else {
+        labels.setAttribute('style', 'color: red');
     }
 }
