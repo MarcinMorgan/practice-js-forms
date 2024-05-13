@@ -8,18 +8,20 @@ function readFile(e) {
     const file = e.target.files;
     for(i=0;i<file.length;i++) {
         const reader = new FileReader();
-        const fileSize = file[i].size;
+        const fileName = file[i].name;
+        const fileSize = Number.parseFloat(file[i].size/1048576).toFixed(2);
         reader.onload = function(readerEvent) {
-            addImage(readerEvent.target.result, fileSize)
+            addImage(fileName, readerEvent.target.result, fileSize)
         }
         reader.readAsDataURL(file[i])
     }
 }
 
-function addImage(imgSrc, imgSize) {
+function addImage(imgName, imgSrc, imgSize) {
     const clonedImgBase = imagesBase.cloneNode(true);
     clonedImgBase.classList.remove('images-list__item--prototype');
-    clonedImgBase.lastElementChild.innerText = imgSize;
+    clonedImgBase.firstElementChild.innerText = imgName;
+    clonedImgBase.lastElementChild.innerText = imgSize+' MB';
     const clonedImgSrc = clonedImgBase.querySelector('img');
     clonedImgSrc.src = imgSrc;
     imagesParent.appendChild(clonedImgBase);
